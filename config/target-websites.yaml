@@ -1,0 +1,56 @@
+websites:
+  - name: makemytrip
+    enabled: false
+    data:
+      request:
+        url: https://bus.makemytrip.com/bus/search/$1/$2/$3
+        type: interpolate
+        args:
+          from: 1
+          to: 2
+          date: 3
+        date_format: "%d-%m-%Y"
+      result:
+        format: document
+        buses:
+          root: root
+          binary_path: 010301
+          hint: children at above node
+        node_path: 0
+        departure_time: 00
+        arrival_time: 02
+        company: 100
+        bus_type: 101
+        rating: 1200
+        fare: 20
+        seats: 21
+  - name: ibibo
+    enabled: true
+    data:
+      request:
+        url: http://developer.goibibo.com/api/bus/search/
+        type: get
+        from: source
+        to: destination
+        date: dateofdeparture
+        date_format: "%Y%m%d"
+        params:
+          - name: app_id
+            value: "secrets.ibibo.api.app_id"
+          - name: app_key
+            value: "secrets.ibibo.api.app_key"
+          - name: format
+            value: json
+      result:
+        format: json
+        buses: data.onwardflights
+        seats: avlWindowSeats
+        departure_time: DepartureTime
+        arrival_time: ArrivalTime
+        fare: fare.totalfare
+        bus_type: BusType
+        company: TravelsName
+        rating: rating
+
+
+
